@@ -31,6 +31,7 @@ while True:
 			#Y mientras que el mensaje sea texto
 			if m.content_type == 'text':
 				#Haremos que imprima algo parecido a esto -> [52033876]: /start
+				#El numero entre corchetes es nuestro ID unico para el chat
 				print "[" + str(cid) + "]: " + m.text
 
 	#Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
