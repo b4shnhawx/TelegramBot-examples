@@ -89,6 +89,41 @@ while True:
 		os.system(command)
 		bot.send_message(cid, "Encendiendo PC...")
 		
+	@bot.message_handler(commands=['reiniciar'])
+	def command_reiniciar(m):
+		cid = m.chat.id
+		bot.send_message(cid, "Reiniciando...")
+		time.sleep(4)
+		commands.getoutput('sudo reboot')
+	
+	@bot.message_handler(commands=['apagar'])
+	def command_apagar(m):
+		cid = m.chat.id
+
+		markup = types.ReplyKeyboardMarkup(row_width=2)
+		yesbtn = types.KeyboardButton('Si')
+		nobtn = types.KeyboardButton('No')
+		markup.add(yesbtn, nobtn)
+
+		bot.send_message(cid, "¿De verdad deseas apagar el servidor?", reply_markup=markup)
+
+		@bot.message_handler(regexp = 'Si')
+		def command_apagar_yes(m):
+			#Llamamos a un metodo para quitar el teclado y lo guardamos en la variable
+			markup = types.ReplyKeyboardRemove(selective=False)
+			#Enviamos un mensaje y sustituimos el teclado por removeteclado. Ya no hay teclado
+			bot.send_message(cid, "Apagando...", reply_markup=markup)
+			time.sleep(4)
+			os.system('sudo shutdown now')
+		
+		@bot.message_handler(regexp = 'No')
+		def command_apagar_no(m):
+			cid = m.chat.id
+			#Llamamos a un metodo para quitar el teclado y lo guardamos en la variable
+			markup = types.ReplyKeyboardRemove(selective=False)
+			#Enviamos un mensaje y sustituimos el teclado por removeteclado. Ya no hay teclado
+			bot.send_message(cid, "Operación cancelada", reply_markup=markup)
+
 	@bot.message_handler(commands=['temp_except'])
 	def excepcion(m):
 		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
