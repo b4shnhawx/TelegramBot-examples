@@ -76,12 +76,224 @@ while True:
 		publicip = commands.getoutput('wget -qO- ifconfig.co/ip')
 		bot.send_message(cid, "Direccion publica: " + publicip)
 		
+	@bot.message_handler(commands = ['servicio_smbd'])
+	def command_servicio_smbd(m):
+		cid = m.chat.id
+
+		markup = types.ReplyKeyboardMarkup(row_width=1)
+	      	status = types.KeyboardButton('Status SMB')
+	        start = types.KeyboardButton('Start SMB')
+	        restart = types.KeyboardButton('Restart SMB')
+	        stop = types.KeyboardButton('Stop SMB')
+
+		markup.add(status, start, restart, stop)
+
+	        bot.send_message (cid, "Que deseas hacer?", reply_markup=markup)
+
+		@bot.message_handler(regexp = 'Status SMB')
+		def command_servicio_smbd_status(m):
+			state = commands.getoutput('sudo service smbd status')
+
+			if 'active (running)' in state:
+				bot.send_message(cid, "Estado del servicio SMB: Active (running)")
+			elif 'inactive (dead)' in state:
+				bot.send_message(cid, "Estado del servicio SMB: Inactive (dead)")
+
+		@bot.message_handler(regexp = 'Start SMB')
+	        def command_servicio_smbd_start(m):
+	        	commands.getoutput('sudo service smbd start')
+			bot.send_message(cid, "Activando servicio")
+			time.sleep(25)
+			command_servicio_smbd_status(m)
+
+	       	@bot.message_handler(regexp = 'Restart SMB')
+	       	def command_servicio_smbd_restart(m):
+	        	commands.getoutput('sudo service smbd restart')
+	        	bot.send_message(cid, "Reiniciando servicio")
+	        	time.sleep(2)
+	        	command_servicio_smbd_status(m)
+
+	        @bot.message_handler(regexp = 'Stop SMB')
+	        def command_servicio_smbd_stop(m):
+	        	commands.getoutput('sudo service smbd stop')
+	        	bot.send_message(cid, "Desactivando servicio")
+	        	time.sleep(2)
+	        	command_servicio_smbd_status(m)
+
+	@bot.message_handler(commands = ['servicio_vsftpd'])
+	def command_servicio_vsftpd(m):
+	        cid = m.chat.id
+
+		markup = types.ReplyKeyboardMarkup(row_width=1)
+		status = types.KeyboardButton('Status FTP')
+		start = types.KeyboardButton('Start FTP')
+		restart = types.KeyboardButton('Restart FTP')
+		stop = types.KeyboardButton('Stop FTP')
+
+		markup.add(status, start, restart, stop)
+
+		bot.send_message (cid, "Que deseas hacer?", reply_markup=markup)
+
+		@bot.message_handler(regexp = 'Status FTP')
+		def command_servicio_vsftpd_status(m):
+			state = commands.getoutput('sudo service vsftpd status')
+
+			if 'active (running)' in state:
+				bot.send_message(cid, "Estado del servicio FTP: Active (running)")
+			elif 'inactive (dead)' in state:
+				bot.send_message(cid, "Estado del servicio FTP: Inactive (dead)")
+
+		@bot.message_handler(regexp = 'Start FTP')
+		def command_servicio_vsftpd_start(m):
+			commands.getoutput('sudo service vsftpd start')
+			bot.send_message(cid, "Activando servicio")
+			time.sleep(5)
+			command_servicio_vsftpd_status(m)
+
+		@bot.message_handler(regexp = 'Restart FTP')
+		def command_servicio_vsftpd_restart(m):
+			commands.getoutput('sudo service vsftpd restart')
+			bot.send_message(cid, "Reiniciando servicio")
+			time.sleep(2)
+			command_servicio_vsftpd_status(m)
+
+		@bot.message_handler(regexp = 'Stop FTP')
+		def command_servicio_vsftpd_stop(m):
+			commands.getoutput('sudo service vsftpd stop')
+			bot.send_message(cid, "Desactivando servicio")
+			time.sleep(2)
+			command_servicio_vsftpd_status(m)
+
+
+	@bot.message_handler(commands = ['servicio_ssh'])
+	def command_servicio_ssh(m):
+		cid = m.chat.id
+
+		markup = types.ReplyKeyboardMarkup(row_width=1)
+	 	status = types.KeyboardButton('Status SSH')
+	 	start = types.KeyboardButton('Start SSH')
+	 	restart = types.KeyboardButton('Restart ssh')
+	 	stop = types.KeyboardButton('Stop SSH')
+
+	 	markup.add(status, start, restart, stop)
+
+	 	bot.send_message (cid, "Que deseas hacer?", reply_markup=markup)
+
+	 	@bot.message_handler(regexp = "Status SSH")
+	 	def command_servicio_ssh_status(m):
+			cid = m.chat.id
+	 		state = commands.getoutput('sudo service ssh status')
+
+	 		if 'active (running)' in state:
+	 			bot.send_message(cid, "Estado del servicio SSH: Active (running)")
+	                elif 'inactive (dead)' in state:
+        	        	bot.send_message(cid, "Estado del servicio SSH: Inactive (dead)")
+
+	                @bot.message_handler(regexp = 'Start SSH')
+	                def command_servicio_ssh_start(m):
+	                        commands.getoutput('sudo service ssh start')
+	                        bot.send_message(cid, "Activando servicio")
+	                        time.sleep(5)
+	                        command_servicio_ssh_status(m)
+
+	                @bot.message_handler(regexp = 'Restart SSH')
+	                def command_servicio_ssh_restart(m):
+	                        commands.getoutput('sudo service ssh restart')
+	                        bot.send_message(cid, "Reiniciando servicio")
+	                        time.sleep(2)
+	                        command_servicio_ssh_status(m)
+
+	                @bot.message_handler(regexp = 'Stop SSH')
+	                def command_servicio_ssh_stop(m):
+	                        commands.getoutput('sudo service ssh stop')
+	                        bot.send_message(cid, "Desactivando servicio")
+	                        time.sleep(2)
+	                        command_servicio_ssh_status(m)
+
+        @bot.message_handler(commands = ['servicio_vnc'])
+        def command_servicio_vnc(m):
+                cid = m.chat.id
+
+                markup = types.ReplyKeyboardMarkup(row_width=1)
+                status = types.KeyboardButton('Status VNC')
+                start = types.KeyboardButton('Start VNC')
+                restart = types.KeyboardButton('Restart VNC')
+                stop = types.KeyboardButton('Stop VNC')
+
+                markup.add(status, start, restart, stop)
+
+                bot.send_message (cid, "Que deseas hacer?", reply_markup=markup)
+
+                @bot.message_handler(regexp = 'Status VNC')
+                def command_servicio_vnc_status(m):
+                        state = commands.getoutput('sudo service vncserver-x11-serviced status')
+
+                        if 'active (running)' in state:
+                                bot.send_message(cid, "Estado del servicio VNC: Active (running)")
+                        elif 'inactive (dead)' in state:
+                                bot.send_message(cid, "Estado del servicio VNC: Inactive (dead)")
+
+                @bot.message_handler(regexp = 'Start VNC')
+                def command_servicio_vnc_start(m):
+                        commands.getoutput('sudo service vncserver-x11-serviced start')
+                        bot.send_message(cid, "Activando servicio")
+                        time.sleep(5)
+                        command_servicio_vnc_status(m)
+
+                @bot.message_handler(regexp = 'Restart VNC')
+                def command_servicio_vnc_restart(m):
+                        commands.getoutput('sudo service vncserver-x11-serviced restart')
+                        bot.send_message(cid, "Reiniciando servicio")
+                        time.sleep(2)
+                        command_servicio_vnc_status(m)
+
+                @bot.message_handler(regexp = 'Stop VNC')
+                def command_servicio_vnc_stop(m):
+                        commands.getoutput('sudo service vncserver-x11-serviced stop')
+                        bot.send_message(cid, "Desactivando servicio")
+                        time.sleep(2)
+                        command_servicio_vnc_status(m)
+			
 	@bot.message_handler(commands=['log'])
 	def command_log(m):
 		cid = m.chat.id
 		log = open('/var/log/syslog', 'rb')
 		bot.send_document(cid, log)
 		
+	@bot.message_handler(commands=['nota_rapida'])
+	#Crea metodo con la información del mensaje (m)
+	def nota_rapida(m):
+		#Guarda en la variable la id del chat usando la informacion del mensaje recibido
+		cid = m.chat.id
+		#Envia el mensaje al usuario
+		bot.send_message(cid, "Ahora las notas rápidas están activadas. Envia una foto y la guardare!")
+
+		@bot.message_handler(content_types=['photo'])
+		def photo(message):
+			processPhotoMessage(message)
+
+		def processPhotoMessage(message):
+#			print 'message.photo =', message.photo
+			fileID = message.photo[-1].file_id
+#			print 'fileID =', fileID
+			file = bot.get_file(fileID)
+#			print 'file.file_path =', file.file_path
+			#https://api.telegram.org/file/bot364258304:AAEzlAMF9AFoTwLWrKyiVaASLhxXJF5qn90/photos/file_53.jpg
+			#https://api.telegram.org/file/botTOKEN/rutadelafoto.jpg
+			url = "https://api.telegram.org/file/bot" + TOKEN + "/" + file.file_path
+#			print url
+
+			notesNum = commands.getoutput('ls /media/pi/NAS/3-\ Quicknotes | cut -f1 -d. | sort -n | tail -n1')
+			if notesNum == "":
+				notesNum = 1
+			else:
+				notesNum = int(notesNum)
+				notesNum = notesNum + 1
+			notesNum = str(notesNum)
+
+			outPath = '/media/pi/NAS/3- Quicknotes/' + notesNum + '.jpg'
+			print outPath
+			
 	@bot.message_handler(commands=['enciende_PC_magic_packet'])
 	def command_enciende_PC_magic_packet(m):
 		cid = m.chat.id
