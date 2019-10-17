@@ -16,7 +16,7 @@ from subprocess import call
 TOKEN = '123456789:ahabsufOA29Uaohsf289724ahrAEGasmfgp680q'
 #Creamos el objeto de nuestro bot.
 bot = telebot.TeleBot(TOKEN)
-
+mac_enciende_PC_magic_packet = "FF:FF:FF:FF:FF:FF"
 
 #############################################
 #Listener
@@ -46,3 +46,52 @@ while True:
 	        cid = m.chat.id
 	        bot.send_message(cid, "Bot iniciado!")
 	
+	@bot.message_handler(commands=['cmd'])
+	def command_ayuda(m):
+		cid = m.chat.id
+		bot.send_message(cid, [ "Comandos disponibles:" +
+					"\n/temp" +
+					"\n/public_ip" +
+					"\n/servicio_vsftpd" +
+					"\n/servicio_smbd" +
+			                "\n/servicio_ssh" +
+        			        "\n/servicio_vnc" +
+					"\n/log" +
+					"\n/nota_rapida" +
+					"\n/enciende_PC_magic_packet" +
+					"\n/reiniciar" +
+					"\n/apagar" +
+					"\n/apagado_programado" +
+					"\n/cancelar_apagado" +
+					"\n/temp_except"])
+
+	@bot.message_handler(commands=['temp'])
+	def command_temp(m):
+		cid = m.chat.id
+		temp = commands.getoutput('sudo /opt/vc/bin/vcgencmd measure_temp | cut -f2 -d=')
+		bot.send_message(cid, temp)
+
+	@bot.message_handler(commands=['public_ip'])
+	def command_publicip(m):
+		publicip = commands.getoutput('wget -qO- ifconfig.co/ip')
+		bot.send_message(cid, "Direccion publica: " + publicip)
+		
+	@bot.message_handler(commands=['log'])
+	def command_log(m):
+		cid = m.chat.id
+		log = open('/var/log/syslog', 'rb')
+		bot.send_document(cid, log)
+		
+	@bot.message_handler(commands=['enciende_PC_magic_packet'])
+	def command_enciende_PC_magic_packet(m):
+		cid = m.chat.id
+		command = 'sudo wakeonlan ' + mac_enciende_PC_magic_packet
+		os.system(command)
+		bot.send_message(cid, "Encendiendo PC...")
+		
+	@bot.message_handler(commands=['temp_except'])
+	def excepcion(m):
+		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
+	
+
+		
