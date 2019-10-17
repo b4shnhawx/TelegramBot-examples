@@ -123,10 +123,6 @@ while True:
 			markup = types.ReplyKeyboardRemove(selective=False)
 			#Enviamos un mensaje y sustituimos el teclado por removeteclado. Ya no hay teclado
 			bot.send_message(cid, "Operación cancelada", reply_markup=markup)
-
-	@bot.message_handler(commands=['temp_except'])
-	def excepcion(m):
-		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
 	
 	@bot.message_handler(commands=['apagado_programado'])
 	def command_apagado_programado(m):
@@ -211,4 +207,8 @@ while True:
 		cid = m.chat.id
 		commands.getoutput('sudo shutdown -c')
 		bot.send_message(cid, "El apagado programado se ha cancelado")
+		
+	@bot.message_handler(commands=['temp_except'])
+	def excepcion(m):
+		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
 		
