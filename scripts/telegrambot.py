@@ -128,5 +128,87 @@ while True:
 	def excepcion(m):
 		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
 	
+	@bot.message_handler(commands=['apagado_programado'])
+	def command_apagado_programado(m):
+		cid = m.chat.id
 
+		markup = types.ReplyKeyboardMarkup(row_width=3)
+		itembtn1 = types.KeyboardButton('10 min')
+		itembtn2 = types.KeyboardButton('20 min')
+		itembtn3 = types.KeyboardButton('30 min')
+	        itembtn4 = types.KeyboardButton('45 min')
+	        itembtn5 = types.KeyboardButton('1 h')
+	        itembtn6 = types.KeyboardButton('1 h 30 min')
+	        itembtn7 = types.KeyboardButton('2 h')
+	        itembtn8 = types.KeyboardButton('2 h 30 min')
+		itembtn9 = types.KeyboardButton('3 h')
+		markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6, itembtn7, itembtn8, itembtn9)
+
+		bot.send_message(cid, "Elije el tiempo en el que desea que se apague el servidor:", reply_markup=markup)
+
+	        @bot.message_handler(regexp = '10 min')
+	        def command_apagar_en(m):
+	        	#Llamamos a un metodo para quitar el teclado y lo guardamos en la variable
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	        	#Enviamos un mensaje y sustituimos el teclado por removeteclado. Ya no hay teclado
+	                bot.send_message(cid, "Apagado programado en 10 minutos", reply_markup=markup)
+		        #Ejecuta el comando para apagar la raspberry en 10 minutos
+			commands.getoutput('sudo shutdown -h +10')
+
+		#El resto de instruciones de mas abajo hacen exactamente lo mismo, pero cambiando el tiempo en el que se
+		#apagrá el servidor
+
+	        @bot.message_handler(regexp = '20 min')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 20 minutos", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +20')
+
+	        @bot.message_handler(regexp = '30 min')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 30 minutos", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +30')
+
+	        @bot.message_handler(regexp = '45 min')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 45 minutos", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +45')
+
+	        @bot.message_handler(regexp = '1 h')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 1 hora", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +60')
+
+	        @bot.message_handler(regexp = '1 h 30 min')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 1 hora y 30 minutos", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +90')
+
+	        @bot.message_handler(regexp = '2 h')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 2 horas", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +120')
+
+	        @bot.message_handler(regexp = '2 h 30 min')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 2 horas y 30 minutos", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +150')
+
+	        @bot.message_handler(regexp = '3 h')
+	        def command_apagar_en(m):
+	        	markup = types.ReplyKeyboardRemove(selective=False)
+	                bot.send_message(cid, "Apagado programado en 3 horas", reply_markup=markup)
+	                commands.getoutput('sudo shutdown -h +180')
+
+	@bot.message_handler(commands=['cancelar_apagado'])
+	def command_cancelar_apagado(m):
+		cid = m.chat.id
+		commands.getoutput('sudo shutdown -c')
+		bot.send_message(cid, "El apagado programado se ha cancelado")
 		
