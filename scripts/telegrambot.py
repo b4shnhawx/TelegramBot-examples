@@ -273,27 +273,32 @@ while True:
 			processPhotoMessage(message)
 
 		def processPhotoMessage(message):
-#			print 'message.photo =', message.photo
+			#print 'message.photo =', message.photo
 			fileID = message.photo[-1].file_id
-#			print 'fileID =', fileID
+			#print 'fileID =', fileID
 			file = bot.get_file(fileID)
-#			print 'file.file_path =', file.file_path
-			#https://api.telegram.org/file/bot364258304:AAEzlAMF9AFoTwLWrKyiVaASLhxXJF5qn90/photos/file_53.jpg
+			#print 'file.file_path =', file.file_path
+			#https://api.telegram.org/file/bot123456789:ahabsufOA29Uaohsf289724ahrAEGasmfgp680q/photos/file_53.jpg
 			#https://api.telegram.org/file/botTOKEN/rutadelafoto.jpg
 			url = "https://api.telegram.org/file/bot" + TOKEN + "/" + file.file_path
-#			print url
+			#print url
 
-			notesNum = commands.getoutput('ls /media/pi/NAS/3-\ Quicknotes | cut -f1 -d. | sort -n | tail -n1')
+			os.system('sudo mkdir /home/pi/quicknotes')
+			notesNum = commands.getoutput('ls /home/pi/quicknotes | cut -f1 -d. | sort -n | tail -n1')
 			if notesNum == "":
 				notesNum = 1
 			else:
 				notesNum = int(notesNum)
 				notesNum = notesNum + 1
+				
 			notesNum = str(notesNum)
-
 			outPath = '/media/pi/NAS/3- Quicknotes/' + notesNum + '.jpg'
-			print outPath
+			#print outPath
 			
+			wget.download(url, out=outPath)
+
+			bot.send_message(cid, notesNum + ".jpg recibida y guardada!"
+					 
 	@bot.message_handler(commands=['enciende_PC_magic_packet'])
 	def command_enciende_PC_magic_packet(m):
 		cid = m.chat.id
@@ -424,3 +429,7 @@ while True:
 	def excepcion(m):
 		os.system('sudo python /home/pi/scripts/TelegramBot_temp_except.py &')
 		
+#############################################
+#Peticiones
+	#Con esto, le decimos al bot que siga funcionando incluso si encuentra algun fallo.
+	bot.polling(none_stop=True)
