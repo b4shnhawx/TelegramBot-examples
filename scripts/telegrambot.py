@@ -36,3 +36,13 @@ while True:
 
 	#Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
 	bot.set_update_listener(listener)
+
+	
+#############################################
+#Funciones
+#---------------------------------------------- Básicos ----------------------------------------------
+	@bot.message_handler(commands=['start'])
+	def command_hola(m):
+	        cid = m.chat.id
+	        bot.send_message(cid, "Bot iniciado!")
+	
