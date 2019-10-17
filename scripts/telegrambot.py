@@ -17,3 +17,21 @@ TOKEN = '123456789:ahabsufOA29Uaohsf289724ahrAEGasmfgp680q'
 #Creamos el objeto de nuestro bot.
 bot = telebot.TeleBot(TOKEN)
 
+
+#############################################
+#Listener
+#Crea un bucle infinito para que el programa este en continua ejecución
+while True:
+	#Con esto, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
+	def listener(messages):
+		#Por cada dato 'm' en el dato 'messages'
+		for m in messages:
+			#Almacenaremos el ID de la conversación.
+			cid = m.chat.id
+			#Y mientras que el mensaje sea texto
+			if m.content_type == 'text':
+				#Haremos que imprima algo parecido a esto -> [52033876]: /start
+				print "[" + str(cid) + "]: " + m.text
+
+	#Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
+	bot.set_update_listener(listener)
