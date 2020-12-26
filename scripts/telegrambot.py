@@ -13,7 +13,7 @@ import wget #Liberria para descargar archivos de links y urls
 from subprocess import call
 
 #Nuestro token del bot. Se obtiene desde @BotFather dentro de telegram
-TOKEN = '123456789:ahabsufOA29Uaohsf289724ahrAEGasmfgp680q'
+TOKEN = ''
 #Creamos el objeto de nuestro bot.
 bot = telebot.TeleBot(TOKEN)
 mac_enciende_PC_magic_packet = "FF:FF:FF:FF:FF:FF"
